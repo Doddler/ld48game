@@ -23,7 +23,7 @@ public class BadDuder : MonoBehaviour {
 
         speedvar = Random.Range(0.8f, 1.2f);
         turnvar = Random.Range(1.5f, 3.5f);
-        aimvar = Random.Range(0f, 2f);
+        aimvar = Random.Range(0f, 5f);
 
         sirenred = transform.FindChild("SirenRed").gameObject;
         sirenblue = transform.FindChild("SirenBlue").gameObject;
@@ -58,8 +58,10 @@ public class BadDuder : MonoBehaviour {
 
         if (player.transform.position.x > transform.position.x)
             angle *= -1;
-        
-        var n = (player.transform.position.normalized * aimvar + player.transform.position) - transform.position;
+
+        Debug.DrawLine(transform.position, (player.GetComponent<PlayerController>().velocity.normalized * aimvar + player.transform.position));
+
+        var n = (player.GetComponent<PlayerController>().velocity.normalized * aimvar + player.transform.position) - transform.position;
         var newRotation = Quaternion.LookRotation(n, Vector3.back) * Quaternion.Euler(270, 0, 0);
 
         newRotation = Quaternion.Euler(new Vector3(0, 180, newRotation.eulerAngles.z));
@@ -73,8 +75,15 @@ public class BadDuder : MonoBehaviour {
         if (velocity.magnitude > 12 * speedvar)
             velocity = velocity.normalized * 12 * speedvar;
 
+        float angle2 = Mathf.Atan2(target.y, target.x) * 180 / Mathf.PI;
+        angle2 -= 90;
+        if (angle2 < -180)
+            angle2 += 360;
+
         transform.position -= velocity * Time.deltaTime;
 
-        //transform.rotation = rotation;
+        float curangle = transform.rotation.eulerAngles.z;
+
+        Debug.Log(curangle + " " + (180 - angle2));
 	}
 }
