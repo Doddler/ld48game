@@ -3,10 +3,20 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+    public static GameObject player;
+
+    public static GameObject getPlayer()
+    {
+        if (player == null)
+            player = GameObject.Find("Player");
+        return player;
+    }
+
     public float angle;
     public Vector3 velocity;
 
     public Material bgmat;
+    public Material dust;
     public GameObject bgobj;
 
     public GameObject bullet;
@@ -18,6 +28,8 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         velocity = Vector3.zero;
+
+        player = this.gameObject;
 	}
 	
 	// Update is called once per frame
@@ -47,7 +59,8 @@ public class PlayerController : MonoBehaviour {
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 
         bgobj.transform.position = new Vector3(transform.position.x, transform.position.y, 20);
-        bgmat.mainTextureOffset = new Vector2(transform.position.x, transform.position.y) * -0.04f;
+        bgmat.mainTextureOffset = new Vector2(transform.position.x, transform.position.y) * -0.001f;
+        dust.mainTextureOffset = new Vector2(transform.position.x, transform.position.y) * -0.01f;
 
         if (Input.GetButton("Fire1") && fdelay < 0)
         {
