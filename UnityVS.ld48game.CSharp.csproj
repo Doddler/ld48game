@@ -59,6 +59,7 @@
     <Compile Include="Assets\BadDuder.cs" />
     <Compile Include="Assets\PlayerController.cs" />
     <Compile Include="Assets\PlayerLaser.cs" />
+    <Compile Include="Assets\ship.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2012\UnityVS.CSharp.targets" />
 </Project>
