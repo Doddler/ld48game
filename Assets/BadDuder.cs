@@ -164,7 +164,7 @@ public class BadDuder : MonoBehaviour {
         if (fdelay <= 0 && (player.transform.position - transform.position).magnitude < 50f)
         {
             float deltaangle = Mathf.DeltaAngle(curangle, angle2);
-            //Debug.Log(deltaangle);
+            
             if(deltaangle < 30 + (float)angryvar * 5  && deltaangle > -50 - (float)angryvar * 5)
             {
                 Vector3 bulletspawn = Quaternion.Euler(new Vector3(0, 0, angle)) * transform.up.normalized * 1 + transform.position;
@@ -195,7 +195,6 @@ public class BadDuder : MonoBehaviour {
         if ( oth != null)
         {
             GameObject.Destroy(oth.gameObject);
-            GameObject.Instantiate(hitsplosion, transform.position, transform.rotation);
 
             if (isdying == true)
                 return;
@@ -204,6 +203,15 @@ public class BadDuder : MonoBehaviour {
             health -= 1;
             if (health <= 0)
             {
+                int longsplosion = Random.Range(angryvar, 20);
+
+                if (longsplosion < 15)
+                {
+                    GameObject.Instantiate(Resources.Load("explosions/deathsmall"), transform.position, transform.rotation);
+                    GameObject.Destroy(this.gameObject);
+                    return;
+                }
+
                 explosion = (GameObject)GameObject.Instantiate(deathsplosion, transform.position, transform.rotation);
 
                 if (angryvar >= 10)

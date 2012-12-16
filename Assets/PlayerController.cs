@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject bullet;
 
+    ParticleSystem thrust;
+
     public float firedelay = 1;
     float fdelay = 0;
     bool fire2 = false;
@@ -30,6 +32,9 @@ public class PlayerController : MonoBehaviour {
         velocity = Vector3.zero;
 
         player = this.gameObject;
+
+        thrust = gameObject.GetComponentInChildren<ParticleSystem>();
+        //thrust.Stop();
 	}
 	
 	// Update is called once per frame
@@ -44,6 +49,11 @@ public class PlayerController : MonoBehaviour {
 
         if (forwardback < 0)
             forwardback *= 0.7f;
+
+        if (forwardback > 0.1f && !thrust.isPlaying)
+            thrust.Play();
+        if(forwardback < 0.1f)
+            thrust.Stop();
 
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 

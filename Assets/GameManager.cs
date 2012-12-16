@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         timeSinceStart = 0f;
+        //Random.seed = (int)(Time.time/100f);
 	}
 	
 	// Update is called once per frame

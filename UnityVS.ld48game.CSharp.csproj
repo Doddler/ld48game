@@ -61,7 +61,10 @@
     <Compile Include="Assets\PlayerController.cs" />
     <Compile Include="Assets\PlayerLaser.cs" />
     <Compile Include="Assets\SelfSuicide.cs" />
+    <Compile Include="Assets\SpaceSwatController.cs" />
+    <Compile Include="Assets\SpaceTaxi.cs" />
     <Compile Include="Assets\tanker_behaviour.cs" />
+    <Compile Include="Assets\TaxiGroup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2012\UnityVS.CSharp.targets" />
 </Project>

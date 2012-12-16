@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DustLayer
-  m_Shader: {fileID: 10512, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: SpaceSwat
+  m_Shader: {fileID: 30, guid: 0000000000000000e000000000000000, type: 0}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -15,14 +15,10 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 76c9e13c6cdb99b4bac6c19608918905, type: 3}
-          m_Scale: {x: .5, y: .5}
-          m_Offset: {x: -1.66854525, y: -1.59089994}
-    m_Floats:
-      data:
-        first:
-          name: _Cutoff
-        second: .5
+          m_Texture: {fileID: 2800000, guid: fcd5b326ad6b8944e819506451d66f2b, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats: {}
     m_Colors:
       data:
         first:
