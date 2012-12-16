@@ -64,6 +64,7 @@ public class BadDuder : MonoBehaviour {
 
         newRotation = Quaternion.Euler(new Vector3(0, 180, newRotation.eulerAngles.z));
         
+
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * turnvar);
         
         transform.position = new Vector3(transform.position.x, transform.position.y, 1.74f);
