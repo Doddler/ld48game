@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour {
 
         float leftright = Input.GetAxis("Horizontal");
 
-        angle += leftright * Time.deltaTime * 100 * -1;
+        angle += leftright * Time.deltaTime * 130 * -1;
 
         float forwardback = Input.GetAxis("Vertical");
 
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour {
 
         transform.rotation = rotation;
 
-        velocity += rotation * (Vector3.up * forwardback * Time.deltaTime* 10);
+        velocity += rotation * (Vector3.up * forwardback * Time.deltaTime* 20);
 
         if (velocity.magnitude > 10)
             velocity = velocity.normalized * 10;
