@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-
+    GameManager gm;
+         
     public static GameObject player;
 
     public static GameObject getPlayer()
@@ -45,17 +46,14 @@ public class PlayerController : MonoBehaviour {
         velocity = Vector3.zero;
 
         player = this.gameObject;
-
+        gm = GameManager.getGameManager();
         thrust = gameObject.GetComponentInChildren<ParticleSystem>();
         //thrust.Stop();
+        gm.changeHealth(health);
+        gm.changeShields(shields);
 	}
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(10, 100, 100, 30), "Health: " + health);
-        GUI.Label(new Rect(10, 130, 100, 30), "Shields: " + shields);
-    }
-    	
+   	
 	// Update is called once per frame
 	void Update () {
 
@@ -85,7 +83,10 @@ public class PlayerController : MonoBehaviour {
         if (shieldregentimer <= 0)
         {
             if (shields < 30)
+            {
                 shields++;
+                gm.changeShields(shields);
+            }
             shieldregentimer = 0.3f;
         }
 
@@ -162,11 +163,16 @@ public class PlayerController : MonoBehaviour {
             shakeamnt += 0.5f;
             shieldregentimer = 5f;
             if (shields > 0)
+            {
                 shields--;
+                gm.changeShields(shields);
+            }
             else if (health > 0)
+            {
                 health--;
-
-
+                gm.changeHealth(health);
+            }
+            
             if (!isdying && !isdead)
             {
                 if (health <= 0)
