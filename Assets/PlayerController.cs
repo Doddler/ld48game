@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
     float fdelay = 0;
     bool fire2 = false;
 
-    bool isdead = false;
+    public bool isdead = false;
     bool isdying = false;
     float dyingtimer = 5f;
 
@@ -126,9 +126,7 @@ public class PlayerController : MonoBehaviour {
             shakeamnt = 0;
         if (shakeamnt > 6)
             shakeamnt = 6;
-
-        Debug.Log(shakeamnt);
-
+        
         Vector3 shake = new Vector3(transform.position.x + Random.Range(-shakeamnt, shakeamnt), transform.position.y + Random.Range(-shakeamnt, shakeamnt), -10);
 
         Camera.main.transform.position = shake;

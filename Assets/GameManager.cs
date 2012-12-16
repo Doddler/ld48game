@@ -29,9 +29,11 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         timeSinceStart += Time.deltaTime;
 
+        nefarious = (int)(timeSinceStart * 10);
+
         //nefarious++;
 
-
+        //Debug.Log(nefarious);
 
 
 
