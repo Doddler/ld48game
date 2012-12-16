@@ -16,13 +16,15 @@ public class tanker_behaviour : MonoBehaviour {
     private float spottedTimer;
     private float keepAliveTimer = 100f;
 
-
+    private Vector3 target;
+    private Vector3 forward;
+    public float turnCount;
     // Use this for initialization
 	void Start () {
 
         player = PlayerController.getPlayer();
 
-        speedvar = Random.Range(0.8f, 1.2f);
+        speedvar = Random.Range(0.4f, 0.6f);
         turnvar = Random.Range(1.5f, 3.5f);
         aimvar = Random.Range(0f, 2f);
 
@@ -32,7 +34,8 @@ public class tanker_behaviour : MonoBehaviour {
 	
         //initial random direction
         var initRot = Random.Range(0f, 360f);
-        transform.rotation = Quaternion.Euler(0, 0, initRot);
+        transform.rotation = Quaternion.Euler(0, 180, initRot);
+
     }
 	
 	// Update is called once per frame
@@ -71,28 +74,33 @@ public class tanker_behaviour : MonoBehaviour {
         else
         {
 
-            Vector3 target = player.transform.position - transform.position;
-            Vector3 forward = transform.up;
+            turnCount -= Time.deltaTime;
+            if (turnCount < 0)
+            {
+                turnCount = Random.RandomRange(5f, 20f);
+                target = player.transform.position - transform.position;
+                forward = transform.up;
+            }
 
             angle = Vector3.Angle(target, forward);
 
-            if (player.transform.position.x > transform.position.x)
+            if (target.x > transform.position.x)
                 angle *= -1;
 
-            var n = (player.transform.position.normalized * aimvar + player.transform.position) - transform.position;
-            var newRotation = Quaternion.LookRotation(n, Vector3.back) * Quaternion.Euler(270, 0, 0);
-
+            //var n = (target.normalized) - transform.position;
+            var newRotation = Quaternion.LookRotation(target, Vector3.back) * Quaternion.Euler(270, 0, 0);
+          
             newRotation = Quaternion.Euler(new Vector3(0, 180, newRotation.eulerAngles.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * turnvar);
-            //velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime);
-            velocity = velocity.normalized * 8;
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, (5 - turnCount) / 800); 
+            //transform.rotation = newRotation;
+            velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime);
+
+
             if (velocity.magnitude > 8)
                 velocity = velocity.normalized * 8;
 
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * turnvar);
-
-            transform.position = new Vector3(transform.position.x, transform.position.y, 1.74f);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 1.74f); //zlock
             if (target.magnitude > 5)
                 velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime * 12);
 

@@ -48,6 +48,7 @@
      <Compile Include="Assets\GameManager.cs" />
      <Compile Include="Assets\PlayerController.cs" />
      <Compile Include="Assets\PlayerLaser.cs" />
+     <Compile Include="Assets\SelfSuicide.cs" />
      <Compile Include="Assets\tanker_behaviour.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
