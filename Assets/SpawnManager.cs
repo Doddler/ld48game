@@ -37,8 +37,8 @@ public class SpawnManager : MonoBehaviour {
         centeredTextStyle.alignment = TextAnchor.MiddleCenter;
         centeredTextStyle.fontSize = 24;
         
-        if(msgtimer > 0)
-            GUI.Label(new Rect(0, 100, Screen.width, 100), message, centeredTextStyle);
+        //if(msgtimer > 0)
+        //    GUI.Label(new Rect(0, 100, Screen.width, 100), message, centeredTextStyle);
     }
 	
 	// Update is called once per frame
@@ -87,7 +87,8 @@ public class SpawnManager : MonoBehaviour {
                         break;
                 }
 
-                message = "- A cargo ship containing\n(" + cargotype + ") has been detected!";
+                message = "- A cargo ship containing (" + cargotype + ") has been detected!";
+                
             }
             if (r == 2)
             {
@@ -99,6 +100,8 @@ public class SpawnManager : MonoBehaviour {
                 GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup4"), GetValidSpawnpoint(), Quaternion.identity);
                 message = "- A group of civilian ships has been detected!";
             }
+            Debug.Log("message");
+            gm.enqueMessage(message);
         }
 
 

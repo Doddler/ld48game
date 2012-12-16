@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour {
                 isdead = true;
                 for (int i = 0; i < transform.childCount; i++)
                 {
+                    int score = gm.nefarious * 156;
+                    gm.enqueMessage("Final Score: " + score);
                     GameObject.Destroy(transform.GetChild(i).gameObject);
                 }
                 return;

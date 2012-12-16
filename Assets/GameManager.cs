@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
@@ -8,9 +9,11 @@ public class GameManager : MonoBehaviour {
     public int score;
     public int playerHealth;
     public int playerShields;
-    private Queue messageQueue;
+    private List<string> messageQueue;
     private float timeSinceMessage = 10f;
     static GameManager gm;
+
+    private int linecount;
 
     public static GameManager getGameManager()
     {
@@ -25,7 +28,7 @@ public class GameManager : MonoBehaviour {
         timeSinceStart = 0f;
         nefarious = 0;
         score = 0;
-        messageQueue = new Queue();
+        messageQueue = new List<string>();
 
 
 	}
@@ -36,16 +39,21 @@ public class GameManager : MonoBehaviour {
 
         //nefarious = (int)(timeSinceStart * 10);
 
-
-        if (Time.time - timeSinceMessage > 10)
+        message = "";
+        for (int i = 0; i < messageQueue.Count; i++)
         {
-            if (messageQueue.Count > 0)
-            {
-                message = (string)messageQueue.Dequeue();
-                timeSinceMessage = Time.time;
-            }
-            
+            message += messageQueue[i] + "\n";
         }
+
+        //if (Time.time - timeSinceMessage > 10)
+        //{
+        //    if (messageQueue.Count > 0)
+        //    {
+        //        message = (string)messageQueue.Dequeue();
+        //        timeSinceMessage = Time.time;
+        //    }
+            
+        //}
 	}
 
 
@@ -105,6 +113,7 @@ public class GameManager : MonoBehaviour {
         GUIStyle TextStyle = new GUIStyle();
         TextStyle.font = MyFont;
         TextStyle.normal.textColor = Color.green;
+        TextStyle.wordWrap = true;
 
         GUI.Label(new Rect(Screen.width / 2 - 256 + 20, Screen.height - 80, 470, 70), message.ToUpper(), TextStyle);
 
@@ -160,7 +169,42 @@ public class GameManager : MonoBehaviour {
 
     public void enqueMessage(string message)
     {
-        messageQueue.Enqueue(message);
+        if (message.Length > 45)
+        {
+            string[] original = message.Split(null);
+
+            string final = "";
+            int len = 0;
+
+            foreach (var i in original)
+            {
+                len += i.Length;
+                if (len > 45)
+                {
+                    Debug.Log("Queing: " + final);
+                    messageQueue.Add(final);
+                    final = "";
+                    len = 0;
+                    continue;
+                }
+                if (final != "")
+                {
+                    final += " ";
+                    len += 1;
+                }
+
+                final += i;
+            }
+
+            Debug.Log("Queing: " + final);
+            messageQueue.Add(final);
+        
+        }
+        else
+            messageQueue.Add(message);
+
+        while (messageQueue.Count > 5)
+            messageQueue.RemoveAt(0);
     }
 
 }
