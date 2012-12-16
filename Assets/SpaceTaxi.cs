@@ -18,7 +18,8 @@ public class SpaceTaxi : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        
+        transform.position = new Vector3(transform.position.x, transform.position.y, 1.74f);
+        player = PlayerController.getPlayer();
 	}
 	
 	// Update is called once per frame
@@ -30,7 +31,7 @@ public class SpaceTaxi : MonoBehaviour {
         time += Time.deltaTime;
         
         transform.rotation = Quaternion.Slerp(Quaternion.Euler(new Vector3(0f, 180f, transform.rotation.eulerAngles.z)), Quaternion.Euler(new Vector3(0f, 180f, newangle)), Time.deltaTime/2f);
-        Debug.Log(transform.rotation.eulerAngles.z);
+        //Debug.Log(transform.rotation.eulerAngles.z);
 
         velocity += transform.rotation * (Vector3.up * Time.deltaTime * 10);
 
@@ -43,10 +44,12 @@ public class SpaceTaxi : MonoBehaviour {
             }
         }
 
-
         transform.position += velocity * Time.deltaTime;
 
-        Debug.DrawLine(transform.position, transform.up.normalized * 6f + transform.position);
+        float distancebetween = (player.transform.position - transform.position).magnitude;
+
+        if (distancebetween > 150)
+            Destroy(gameObject);
 	}
 
     void OnTriggerEnter(Collider other)
