@@ -161,7 +161,7 @@ public class tanker_behaviour : MonoBehaviour {
                 
                 PlayerController.getPlayer().GetComponent<PlayerController>().shields = 30;
                 GameManager.getGameManager().changeShields(30);
-                GameManager.getGameManager().nefarious += 18;
+                GameManager.getGameManager().nefarious += 36;
 
                 for (int i = 0; i < transform.childCount; i++)
                 {

@@ -102,6 +102,9 @@ public class BadDuder : MonoBehaviour {
                 GameManager.getGameManager().nefarious += 1; break;
         }
 
+        if (p.shields > 30)
+            p.shields = 30;
+
         GameManager.getGameManager().changeShields(p.shields);
     }
     
@@ -186,10 +189,10 @@ public class BadDuder : MonoBehaviour {
 
         firetime += Time.deltaTime;
 
-        if (firetime > 5f)
+        if (firetime > 3f)
         {
-            firecooldown = 5f;
-            Debug.Log("Police ship on firecooldown.");
+            firecooldown = 1f + angryvar / 3f;
+            //Debug.Log("Police ship on firecooldown.");
         }
 
         if (firecooldown > 0)

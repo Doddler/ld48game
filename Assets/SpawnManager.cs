@@ -96,7 +96,7 @@ public class SpawnManager : MonoBehaviour {
             }
             if (r == 3)
             {
-                GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup3"), GetValidSpawnpoint(), Quaternion.identity);
+                GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup4"), GetValidSpawnpoint(), Quaternion.identity);
                 message = "- A group of civilian ships has been detected!";
             }
         }

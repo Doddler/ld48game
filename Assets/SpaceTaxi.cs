@@ -69,7 +69,7 @@ public class SpaceTaxi : MonoBehaviour {
                 if (p.shields > 30)
                     p.shields = 30;
                 GameManager.getGameManager().changeShields(p.shields);
-                GameManager.getGameManager().nefarious += 6;
+                GameManager.getGameManager().nefarious += 10;
 
                 GameObject.Instantiate(Resources.Load("explosions/deathsmall"), transform.position, transform.rotation);
                 GameObject.Destroy(gameObject);
