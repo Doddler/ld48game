@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         timeSinceStart += Time.deltaTime;
 
-        nefarious = (int)(timeSinceStart * 10);
+        //nefarious = (int)(timeSinceStart * 10);
 
         //nefarious++;
 
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour {
 
         GUI.DrawTexture(new Rect(10, 10, 312, 64), nef_bar_out, ScaleMode.StretchToFill, true);
         int numinserts = (int)Mathf.Floor(nefarious / 18);
-        Debug.Log(numinserts);
+        //Debug.Log(numinserts);
         for (int i = 0; i < numinserts; i++)
         {
             GUI.DrawTexture(new Rect(23 + i*14 + i*2, 44, 14, 26), nef_bar_fill);

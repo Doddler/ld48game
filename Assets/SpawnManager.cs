@@ -8,13 +8,11 @@ public class SpawnManager : MonoBehaviour {
     PlayerController pm;
     GameManager gm;
 
-    public List<GameObject> civilian;
-    public List<GameObject> police;
-    public List<GameObject> swat;
-
     float spawntick = 3f;
     float msgtimer = 0f;
     string message = "";
+
+    bool skippolice = false;
 
 	// Use this for initialization
 	void Start () {
@@ -28,11 +26,7 @@ public class SpawnManager : MonoBehaviour {
         float angle = Random.Range(0f, 360f);
         Quaternion q = Quaternion.Euler(0f, 0, angle);
         Vector3 v = q * Vector3.up;
-
-        civilian = new List<GameObject>();
-        police = new List<GameObject>();
-        swat = new List<GameObject>();
-
+        
         return v.normalized * 60f + player.transform.position;
     }
 
@@ -44,12 +38,15 @@ public class SpawnManager : MonoBehaviour {
         centeredTextStyle.fontSize = 24;
         
         if(msgtimer > 0)
-            GUI.Label(new Rect(0, 50, Screen.width, 100), message, centeredTextStyle);
+            GUI.Label(new Rect(0, 100, Screen.width, 100), message, centeredTextStyle);
     }
 	
 	// Update is called once per frame
 	void Update () 
     {
+        if (pm.isdead)
+            return;
+
         msgtimer -= Time.deltaTime;
 
         spawntick -= Time.deltaTime;
@@ -61,7 +58,7 @@ public class SpawnManager : MonoBehaviour {
         message = "";
         msgtimer = 5f;
 
-        if (civilian.Count <= 0)
+        if (1==1)
         {
             int r = Random.Range(0, 3);
             if (r < 2)
@@ -91,29 +88,51 @@ public class SpawnManager : MonoBehaviour {
                 }
 
                 message = "- A cargo ship containing\n(" + cargotype + ") has been detected!";
-
-                civilian.Add(transport);
             }
             if (r == 2)
             {
                 GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup3"), GetValidSpawnpoint(), Quaternion.identity);
                 message = "- A group of civilian ships has been detected!";
-                civilian.Add(taxi);
             }
             if (r == 3)
             {
                 GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup3"), GetValidSpawnpoint(), Quaternion.identity);
                 message = "- A group of civilian ships has been detected!";
-                civilian.Add(taxi);
             }
         }
 
+
+
         if (gm.nefarious > 0)
         {
-            for (int i = 0; i < (int)(gm.nefarious / 18 / 5) + 1; i++)
+            int chance = Random.Range(0, 20);
+
+            int surge = 1;
+
+            if (skippolice)
             {
-                GameObject policeship = (GameObject)GameObject.Instantiate(Resources.Load("ships/PoliceShip"), GetValidSpawnpoint(), Quaternion.identity);
-                police.Add(policeship);
+                surge = (int)(surge / 2);
+                skippolice = false;
+            }
+
+            if (chance == 5)
+            {
+                if (message != "")
+                    message += "\n";
+                message += "- A surge of police activity has been detected!";
+                surge = 2;
+                skippolice = true;
+            }
+
+            int num = GameObject.FindGameObjectsWithTag("Swat").Length;
+
+            for (int i = 0; i < ((int)(gm.nefarious / 18 / 4) + 1) * surge; i++)
+            {
+                if (num < (int)(gm.nefarious / 18/ 2))
+                {
+                    GameObject policeship = (GameObject)GameObject.Instantiate(Resources.Load("ships/PoliceShip"), GetValidSpawnpoint(), Quaternion.identity);
+                    num++;
+                }
             }
             
         }
@@ -122,7 +141,10 @@ public class SpawnManager : MonoBehaviour {
         {
             int chance = Random.Range(0, gm.nefarious/18 + 15);
 
-            if (chance > 15)
+            int num = GameObject.FindGameObjectsWithTag("Swat").Length;
+
+            //Maximum 1 cruiser per 10 ticks of nefariosity.
+            if (chance > 15 && num < (int)(gm.nefarious/18/10))
             {
                 if (message != "")
                     message += "\n";
@@ -131,6 +153,5 @@ public class SpawnManager : MonoBehaviour {
             }
         }
 
-        Debug.Log(police.Count);
 	}
 }

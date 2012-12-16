@@ -36,6 +36,9 @@ public class BadDuder : MonoBehaviour {
     GameObject explosion2;
     GameObject explosion3;
 
+    float firetime;
+    float firecooldown;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -43,16 +46,16 @@ public class BadDuder : MonoBehaviour {
 
         gm = GameManager.getGameManager();
 
-        angryvar = Random.Range(0, 12);
-        if (angryvar > 4)
+        angryvar = Random.Range(0, 15);
+        if (angryvar > 5)
             angryvar = 1;
-        else if (angryvar > 0)
+        else if (angryvar > 1)
             angryvar = 3;
         else
             angryvar = 10;
 
-        int superangry = Random.Range(0, 100 + (int)(gm.timeSinceStart / 10f));
-        if (superangry > 100)
+        int superangry = Random.Range(0, 100);
+        if (superangry > 98 && gm.nefarious > 180)
             angryvar = 20;
 
         speedvar = Random.Range(0.8f - (float)angryvar * 0.02f, 1.2f - (float)angryvar * 0.02f);
@@ -84,6 +87,23 @@ public class BadDuder : MonoBehaviour {
 
         health = angryvar * 2;
     }
+
+    void OnShotDead()
+    {
+        PlayerController p = player.GetComponent<PlayerController>();
+
+        switch (angryvar)
+        {
+            case 1: GameManager.getGameManager().nefarious += 1; p.shields += 0; break;
+            case 3: GameManager.getGameManager().nefarious += 2; p.shields += 2; break;
+            case 10: GameManager.getGameManager().nefarious += 6; p.shields += 5; break;
+            case 20: GameManager.getGameManager().nefarious += 18; p.shields += 10; break;
+            default:
+                GameManager.getGameManager().nefarious += 1; break;
+        }
+
+        GameManager.getGameManager().changeShields(p.shields);
+    }
     
 	// Update is called once per frame
 	void Update () 
@@ -93,6 +113,7 @@ public class BadDuder : MonoBehaviour {
             dyingtime -= Time.deltaTime;
             if (dyingtime <= 0)
             {
+                OnShotDead();
                 GameObject.Destroy(gameObject);
             }
             explosion.transform.position = this.transform.position;
@@ -163,11 +184,27 @@ public class BadDuder : MonoBehaviour {
 
         //Debug.Log(curangle + " " + angle2);
 
-        if (fdelay <= 0 && (player.transform.position - transform.position).magnitude < 50f)
+        firetime += Time.deltaTime;
+
+        if (firetime > 5f)
+        {
+            firecooldown = 5f;
+            Debug.Log("Police ship on firecooldown.");
+        }
+
+        if (firecooldown > 0)
+        {
+            firetime = 0f;
+            firecooldown -= Time.deltaTime;
+            
+        }
+
+
+        if (fdelay <= 0 && (player.transform.position - transform.position).magnitude < 35f && firecooldown <= 0f)
         {
             float deltaangle = Mathf.DeltaAngle(curangle, angle2);
-            
-            if(deltaangle < 30 + (float)angryvar * 5  && deltaangle > -50 - (float)angryvar * 5)
+
+            if (deltaangle < 30 + (float)angryvar * 5 && deltaangle > -50 - (float)angryvar * 5)
             {
                 Vector3 bulletspawn = Quaternion.Euler(new Vector3(0, 0, angle)) * transform.up.normalized * 1 + transform.position;
 
@@ -175,7 +212,7 @@ public class BadDuder : MonoBehaviour {
 
                 float randvar = Random.Range(-20f - (float)angryvar * 3, 20f + (float)angryvar * 3);
 
-                GameObject.Instantiate(bullet, bulletspawn, Quaternion.Euler(0,0, -transform.rotation.eulerAngles.z + 180 + randvar));
+                GameObject.Instantiate(bullet, bulletspawn, Quaternion.Euler(0, 0, -transform.rotation.eulerAngles.z + 180 + randvar));
 
                 if (angryvar > 10)
                 {
@@ -187,6 +224,8 @@ public class BadDuder : MonoBehaviour {
 
                 fire2 = !fire2;
             }
+            else
+                firetime = 0f;
         }
 	}
 
@@ -209,6 +248,7 @@ public class BadDuder : MonoBehaviour {
 
                 if (longsplosion < 15)
                 {
+                    OnShotDead();                    
                     GameObject.Instantiate(Resources.Load("explosions/deathsmall"), transform.position, transform.rotation);
                     GameObject.Destroy(this.gameObject);
                     return;

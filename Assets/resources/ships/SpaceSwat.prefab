@@ -83,7 +83,7 @@ GameObject:
   - 54: {fileID: 5400000}
   m_Layer: 9
   m_Name: SpaceSwat
-  m_TagString: Untagged
+  m_TagString: Swat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

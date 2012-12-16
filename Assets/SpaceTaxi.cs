@@ -63,6 +63,14 @@ public class SpaceTaxi : MonoBehaviour {
 
             if (health <= 0)
             {
+
+                PlayerController p = player.GetComponent<PlayerController>();
+                p.shields += 10;
+                if (p.shields > 30)
+                    p.shields = 30;
+                GameManager.getGameManager().changeShields(p.shields);
+                GameManager.getGameManager().nefarious += 6;
+
                 GameObject.Instantiate(Resources.Load("explosions/deathsmall"), transform.position, transform.rotation);
                 GameObject.Destroy(gameObject);
             }
