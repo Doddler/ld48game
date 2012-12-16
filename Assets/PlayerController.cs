@@ -34,8 +34,8 @@ public class PlayerController : MonoBehaviour {
     bool isdying = false;
     float dyingtimer = 5f;
 
-    int health = 30;
-    int shields = 30;
+    public int health = 30;
+    public int shields = 30;
 
     float shakeamnt = 0f;
 
@@ -53,6 +53,16 @@ public class PlayerController : MonoBehaviour {
         gm.changeShields(shields);
 	}
 
+    void LateUpdate()
+    {
+        if (isdying)
+        {
+            shields = 0;
+            health = 0;
+            gm.changeHealth(0);
+            gm.changeShields(0);
+        }
+    }
    	
 	// Update is called once per frame
 	void Update () {

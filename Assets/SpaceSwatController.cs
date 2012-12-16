@@ -120,6 +120,12 @@ public class SpaceSwatController : MonoBehaviour
             dyingtime -= Time.deltaTime;
             if (dyingtime <= 0)
             {
+                PlayerController p = player.GetComponent<PlayerController>();
+                p.shields += 15;
+                if (p.shields > 30)
+                    p.shields = 30;
+                GameManager.getGameManager().changeShields(p.shields);
+
                 GameObject.Destroy(gameObject);
             }
 
@@ -181,7 +187,7 @@ public class SpaceSwatController : MonoBehaviour
             else
                 StartCoroutine("ShootGuns");
 
-            shotdelay = 3f;
+            shotdelay = 6f;
         }
 	}
 

@@ -34,7 +34,17 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         timeSinceStart += Time.deltaTime;
 
+<<<<<<< HEAD
         //nefarious = (int)(timeSinceStart * 10);
+
+        //nefarious++;
+
+        //Debug.Log(nefarious);
+
+
+=======
+        nefarious+= 29;
+>>>>>>> e25c4d79a5b93580e83f1b323417ffdd6a483116
 
 
         if (Time.time - timeSinceMessage > 10)

@@ -8,13 +8,15 @@ public class tanker_behaviour : MonoBehaviour {
     public Vector3 velocity;
 
     float speedvar;
-    float turnvar;
-    float aimvar;
+    //float turnvar;
+    //float aimvar;
 
 	private int health;
-    private bool spotted; // has it spotted us
+    public bool spotted; // has it spotted us
     private float spottedTimer;
     private float keepAliveTimer = 100f;
+
+    private GameObject thrust;
 
     private Vector3 target;
     private Vector3 forward;
@@ -25,27 +27,41 @@ public class tanker_behaviour : MonoBehaviour {
         player = PlayerController.getPlayer();
 
         speedvar = Random.Range(0.4f, 0.6f);
-        turnvar = Random.Range(1.5f, 3.5f);
-        aimvar = Random.Range(0f, 2f);
+        //turnvar = Random.Range(1.5f, 3.5f);
+        //aimvar = Random.Range(0f, 2f);
 
         transform.position = new Vector3(transform.position.x, transform.position.y, 1.74f);
 
-        health = 100;
+        health = 50;
 	
         //initial random direction
         var initRot = Random.Range(0f, 360f);
         transform.rotation = Quaternion.Euler(0, 180, initRot);
 
+        thrust = transform.FindChild("Thrust").gameObject;
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (Mathf.Abs(player.transform.position.magnitude - transform.position.magnitude) > 150)
+            Destroy(gameObject);
+
                
-        if (Mathf.Abs(player.transform.position.magnitude - transform.position.magnitude) < 50)
+        if (Mathf.Abs(player.transform.position.magnitude - transform.position.magnitude) < 15)
         {
+            if (!spotted)
+            {
+                ParticleSystem p = thrust.GetComponent<ParticleSystem>();
+                p.Play();
+                turnCount = -10;
+            }
+
             spotted = true;
             spottedTimer = 10f;
-            keepAliveTimer = 100f;
+            keepAliveTimer = 20f;
+            
+            
         }
         else
         {
@@ -53,9 +69,10 @@ public class tanker_behaviour : MonoBehaviour {
             {
                 if (spotted)
                 {
-                    Debug.Log("not spotted anymore");
+                    //Debug.Log("not spotted anymore");
                     spotted = false;
-
+                    ParticleSystem p = thrust.GetComponent<ParticleSystem>();
+                    p.Stop();
                 }
             }
             spottedTimer -= Time.deltaTime;
@@ -65,15 +82,15 @@ public class tanker_behaviour : MonoBehaviour {
         if (!spotted)
         {
             velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime);
-            if (velocity.magnitude > 8)
-                velocity = velocity.normalized * 8;
+            if (velocity.magnitude > 3)
+                velocity = velocity.normalized * 3;
             transform.position += velocity * Time.deltaTime;
             keepAliveTimer -= Time.deltaTime;
         }
         //when we spot it, try and run away
         else
         {
-
+            //Debug.Log(turnCount);
             turnCount -= Time.deltaTime;
             if (turnCount < 0)
             {
@@ -92,7 +109,7 @@ public class tanker_behaviour : MonoBehaviour {
           
             newRotation = Quaternion.Euler(new Vector3(0, 180, newRotation.eulerAngles.z));
             
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, (5 - turnCount) / 800); 
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime / 20);
             //transform.rotation = newRotation;
             velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime);
 
@@ -104,8 +121,8 @@ public class tanker_behaviour : MonoBehaviour {
             if (target.magnitude > 5)
                 velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime * 12);
 
-            if (velocity.magnitude > 12 * speedvar)
-                velocity = velocity.normalized * 12 * speedvar;
+            if (velocity.magnitude > 9 * speedvar)
+                velocity = velocity.normalized * 9 * speedvar;
 
             transform.position += velocity * Time.deltaTime;
         
@@ -117,7 +134,46 @@ public class tanker_behaviour : MonoBehaviour {
             return;
         }
     
-     
-    
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        PlayerLaser oth = other.gameObject.GetComponent<PlayerLaser>();
+        if (oth != null)
+        {
+            GameObject.Destroy(other.gameObject);
+            health -= 1;
+            keepAliveTimer = 20f;
+
+            if (!spotted)
+            {
+                ParticleSystem p = thrust.GetComponent<ParticleSystem>();
+                p.Play();
+                turnCount = -10;
+                spotted = true;
+                spottedTimer = 10f;
+                keepAliveTimer = 20f;
+            }
+
+            if (health <= 0)
+            {
+                
+                PlayerController.getPlayer().GetComponent<PlayerController>().shields = 30;
+                GameManager.getGameManager().changeShields(30);
+                GameManager.getGameManager().nefarious += 36;
+
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    Transform t = transform.GetChild(i);
+                    if (t.name == "ExplosionPoint")
+                    {
+                        GameObject.Instantiate(Resources.Load("explosions/deathsmall"), t.position, transform.rotation);
+                    }
+                }
+
+                GameObject.Destroy(gameObject);
+            }
+        }
     }
 }
