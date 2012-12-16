@@ -73,7 +73,7 @@ public class SpaceSwatController : MonoBehaviour
                 float angle2 = Random.Range(-4f, 4f);        
 
                 GameObject g = (GameObject)GameObject.Instantiate(Resources.Load("shots/PoliceShot"), point, Quaternion.Euler(0, 180f, angle + angle2));
-                PlayerLaser p = g.GetComponent<PlayerLaser>();
+                EnemyLaser p = g.GetComponent<EnemyLaser>();
                 p.velocity = Random.Range(10f, 20f);
                 //Debug.Log(p.velocity);
                 

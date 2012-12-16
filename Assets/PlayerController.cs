@@ -21,11 +21,24 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject bullet;
 
+    public GameObject explosion;
+
     ParticleSystem thrust;
 
     public float firedelay = 1;
     float fdelay = 0;
     bool fire2 = false;
+
+    bool isdead = false;
+    bool isdying = false;
+    float dyingtimer = 5f;
+
+    int health = 30;
+    int shields = 30;
+
+    float shakeamnt = 0f;
+
+    float shieldregentimer = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -36,9 +49,47 @@ public class PlayerController : MonoBehaviour {
         thrust = gameObject.GetComponentInChildren<ParticleSystem>();
         //thrust.Stop();
 	}
-	
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 100, 100, 30), "Health: " + health);
+        GUI.Label(new Rect(10, 130, 100, 30), "Shields: " + shields);
+    }
+    	
 	// Update is called once per frame
 	void Update () {
+
+        if (isdead)
+            return;
+
+        if (isdying)
+        {
+            explosion.transform.position = transform.position;
+            dyingtimer -= Time.deltaTime;
+            if (dyingtimer < 0)
+            {
+                renderer.enabled = false;
+                velocity = Vector3.zero;
+                isdead = true;
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    GameObject.Destroy(transform.GetChild(i).gameObject);
+                }
+                return;
+            }
+        }
+
+
+
+        shieldregentimer -= Time.deltaTime ;
+        if (shieldregentimer <= 0)
+        {
+            if (shields < 30)
+                shields++;
+            shieldregentimer = 0.3f;
+        }
+
+
         fdelay -= Time.deltaTime;
 
         float leftright = Input.GetAxis("Horizontal");
@@ -66,7 +117,21 @@ public class PlayerController : MonoBehaviour {
 
         transform.position += velocity * Time.deltaTime;
 
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+
+        shakeamnt -= Time.deltaTime;
+        if (shakeamnt > 0.5f)
+            shakeamnt -= Time.deltaTime * 3f;
+        if (shakeamnt < 0)
+            shakeamnt = 0;
+        if (shakeamnt > 6)
+            shakeamnt = 6;
+
+        Debug.Log(shakeamnt);
+
+        Vector3 shake = new Vector3(transform.position.x + Random.Range(-shakeamnt, shakeamnt), transform.position.y + Random.Range(-shakeamnt, shakeamnt), -10);
+
+        Camera.main.transform.position = shake;
 
         bgobj.transform.position = new Vector3(transform.position.x, transform.position.y, 100);
         bgmat.mainTextureOffset = new Vector2(transform.position.x, transform.position.y) * -0.001f;
@@ -88,4 +153,31 @@ public class PlayerController : MonoBehaviour {
             fire2 = !fire2;
         }
 	}
+
+    void OnTriggerEnter(Collider other)
+    {
+    
+        EnemyLaser oth = other.gameObject.GetComponent<EnemyLaser>();
+        if (oth != null)
+        {
+            GameObject.Destroy(other.gameObject);
+            shakeamnt += 0.5f;
+            shieldregentimer = 5f;
+            if (shields > 0)
+                shields--;
+            else if (health > 0)
+                health--;
+
+
+            if (!isdying && !isdead)
+            {
+                if (health <= 0)
+                {
+                    explosion = (GameObject) GameObject.Instantiate(Resources.Load("explosions/playerdeathsplosion"), player.transform.position, player.transform.rotation);
+                    isdying = true;
+                }
+            }
+        }
+    }
+
 }
