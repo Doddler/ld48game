@@ -5,7 +5,7 @@ public class PlayerLaser : MonoBehaviour {
 
     public float angle;
     public float velocity;
-    float life = 3;
+    float life = 6;
 
 	// Use this for initialization
 	void Start () {
@@ -23,4 +23,5 @@ public class PlayerLaser : MonoBehaviour {
 
         transform.position += transform.up * velocity * Time.deltaTime;
 	}
+
 }

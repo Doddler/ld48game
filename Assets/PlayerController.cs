@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour {
 
         transform.rotation = rotation;
 
-        velocity += rotation * (Vector3.up * forwardback * Time.deltaTime* 5);
+        velocity += rotation * (Vector3.up * forwardback * Time.deltaTime* 10);
 
         if (velocity.magnitude > 10)
             velocity = velocity.normalized * 10;
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour {
 
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 
-        bgobj.transform.position = new Vector3(transform.position.x, transform.position.y, 20);
+        bgobj.transform.position = new Vector3(transform.position.x, transform.position.y, 100);
         bgmat.mainTextureOffset = new Vector2(transform.position.x, transform.position.y) * -0.001f;
         dust.mainTextureOffset = new Vector2(transform.position.x, transform.position.y) * -0.01f;
 
