@@ -189,6 +189,7 @@ public class PlayerController : MonoBehaviour {
                 {
                     explosion = (GameObject) GameObject.Instantiate(Resources.Load("explosions/playerdeathsplosion"), player.transform.position, player.transform.rotation);
                     isdying = true;
+                    gm.enqueMessage("Wow, it sure sucks to be dead!");
                 }
             }
         }
