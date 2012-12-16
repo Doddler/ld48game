@@ -80,6 +80,8 @@ public class BadDuder : MonoBehaviour {
 
         transform.localScale = new Vector3(transform.localScale.x + 0.25f * (float)angryvar, transform.localScale.y + -0.4f * (float)angryvar, transform.localScale.z * 0.25f * (float)angryvar);
 
+        transform.rotation = Quaternion.Euler(0, 180f, Random.Range(0f, 360f));
+
         health = angryvar * 2;
     }
     

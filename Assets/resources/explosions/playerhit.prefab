@@ -204,7 +204,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4289309183
+        rgba: 4283475199
       minMaxState: 0
     startSize:
       scalar: 1
