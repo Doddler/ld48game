@@ -20508,8 +20508,16 @@ MonoBehaviour:
   m_Name: 
   timeSinceStart: 0
   nefarious: 0
+  score: 0
+  playerHealth: 30
+  playerShields: 0
   nef_bar_out: {fileID: 2800000, guid: 854c876915681214095bb405c232a913, type: 3}
   nef_bar_fill: {fileID: 2800000, guid: 963ad0935007e274ea131d1890b48e80, type: 3}
+  health_bar_out: {fileID: 2800000, guid: 9c8031724a902de43889f68c30aef075, type: 3}
+  health_bar_in: {fileID: 2800000, guid: 9ef5b361cdc965c47b23388aa118634a, type: 3}
+  shield_bar_out: {fileID: 2800000, guid: 8b60167d8c4a73d4486081d0305e7995, type: 3}
+  shield_bar_in: {fileID: 2800000, guid: 556823e7a978caf4a9eae7b444943d7f, type: 3}
+  chatbox: {fileID: 2800000, guid: a4067cfdf0ef77641a8c9dac59b49ab8, type: 3}
 --- !u!4 &2053650393
 Transform:
   m_ObjectHideFlags: 0
