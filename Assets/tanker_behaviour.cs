@@ -96,12 +96,10 @@ public class tanker_behaviour : MonoBehaviour {
             //transform.rotation = newRotation;
             velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime);
 
-            Debug.Log((5 - turnCount) / 5);
+
             if (velocity.magnitude > 8)
                 velocity = velocity.normalized * 8;
 
-          
-            //Debug.Log(transform.rotation.eulerAngles.ToString() + " " + newRotation.eulerAngles.ToString());
             transform.position = new Vector3(transform.position.x, transform.position.y, 1.74f); //zlock
             if (target.magnitude > 5)
                 velocity += transform.rotation * (Vector3.up * speedvar * Time.deltaTime * 12);

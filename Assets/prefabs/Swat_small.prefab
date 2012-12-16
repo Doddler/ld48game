@@ -215,6 +215,10 @@ MonoBehaviour:
   m_Name: 
   angle: 0
   velocity: {x: 0, y: 0, z: 0}
+  bullet: {fileID: 100000, guid: 12a93259b947b7e47a4f9dbf36b80a35, type: 2}
+  deathsplosion: {fileID: 100000, guid: 6185eae0fa365a64c947a9eebebeaee6, type: 2}
+  hitsplosion: {fileID: 100000, guid: 9c9e1bf2c8ca87f40ae0ec9b17853f21, type: 2}
+  firedelay: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
