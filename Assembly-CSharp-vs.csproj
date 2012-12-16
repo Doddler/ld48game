@@ -52,6 +52,7 @@
      <Compile Include="Assets\SelfSuicide.cs" />
      <Compile Include="Assets\SpaceSwatController.cs" />
      <Compile Include="Assets\SpaceTaxi.cs" />
+     <Compile Include="Assets\SpawnManager.cs" />
      <Compile Include="Assets\TaxiGroup.cs" />
      <Compile Include="Assets\tanker_behaviour.cs" />
   </ItemGroup>
