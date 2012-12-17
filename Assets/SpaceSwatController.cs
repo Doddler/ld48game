@@ -22,6 +22,8 @@ public class SpaceSwatController : MonoBehaviour
     bool isdying = false;
     float dyingtime = 3f;
 
+    GameManager gm;
+
     GameObject[] explosions;
 
 	// Use this for initialization
@@ -38,6 +40,8 @@ public class SpaceSwatController : MonoBehaviour
         explosions = new GameObject[5];
 
         transform.position = new Vector3(transform.position.x, transform.position.y, 1.74f);
+
+        gm = GameManager.getGameManager();
 	}
 
     Vector3 GetGunPos(int gunpoint)
@@ -136,10 +140,21 @@ public class SpaceSwatController : MonoBehaviour
             explosions[4].transform.position = transform.position;
         }
 
-        turnwait -= Time.deltaTime;
-
         float distancebetween = (player.transform.position - transform.position).magnitude;
 
+
+        if (!gm.firstswat)
+        {
+            if (distancebetween < 30f)
+            {
+                gm.firstswat = true;
+                gm.enqueMessage("Space Swat: \"Stop right there criminal scum!!\"", new Color(0.5f, 0.5f, 1f));
+            }
+        }
+
+        turnwait -= Time.deltaTime;
+
+        
 
         if (turnwait < 0)
         {

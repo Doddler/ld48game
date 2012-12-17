@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
     bool fire2 = false;
 
     public bool isdead = false;
-    bool isdying = false;
+    public bool isdying = false;
     float dyingtimer = 5f;
 
     public int health = 30;
@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour {
     float shakeamnt = 0f;
 
     float shieldregentimer = 0f;
+
 
 	// Use this for initialization
 	void Start () {
@@ -81,16 +82,14 @@ public class PlayerController : MonoBehaviour {
                 isdead = true;
                 for (int i = 0; i < transform.childCount; i++)
                 {
-                    int score = gm.nefarious * 156;
-                    gm.enqueMessage("Final Score: " + score);
+                    int score = gm.nefarious * 16;
+                    gm.enqueMessage("Final Score: " + score, Color.white);
                     GameObject.Destroy(transform.GetChild(i).gameObject);
                 }
                 return;
             }
         }
-
-
-
+        
         shieldregentimer -= Time.deltaTime ;
         if (shieldregentimer <= 0)
         {
@@ -191,7 +190,7 @@ public class PlayerController : MonoBehaviour {
                 {
                     explosion = (GameObject) GameObject.Instantiate(Resources.Load("explosions/playerdeathsplosion"), player.transform.position, player.transform.rotation);
                     isdying = true;
-                    gm.enqueMessage("Wow, it sure sucks to be dead!");
+                    gm.enqueMessage("Hull integrity failing!", Color.red);
                 }
             }
         }

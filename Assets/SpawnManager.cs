@@ -8,11 +8,13 @@ public class SpawnManager : MonoBehaviour {
     PlayerController pm;
     GameManager gm;
 
-    float spawntick = 3f;
+    float spawntick = 7f;
     float msgtimer = 0f;
     string message = "";
 
     bool skippolice = false;
+
+    bool firstpolice = false;
 
 	// Use this for initialization
 	void Start () {
@@ -44,7 +46,7 @@ public class SpawnManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        if (pm.isdead)
+        if (pm.isdying)
             return;
 
         msgtimer -= Time.deltaTime;
@@ -87,21 +89,21 @@ public class SpawnManager : MonoBehaviour {
                         break;
                 }
 
-                message = "- A cargo ship containing (" + cargotype + ") has been detected!";
+                message = "A cargo ship containing (" + cargotype + ") has been detected!";
                 
             }
             if (r == 2)
             {
                 GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup3"), GetValidSpawnpoint(), Quaternion.identity);
-                message = "- A group of civilian ships has been detected!";
+                message = "A group of civilian ships has been detected!";
             }
             if (r == 3)
             {
                 GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup4"), GetValidSpawnpoint(), Quaternion.identity);
-                message = "- A group of civilian ships has been detected!";
+                message = "A group of civilian ships has been detected!";
             }
             Debug.Log("message");
-            gm.enqueMessage(message);
+            gm.enqueMessage(message, Color.green);
         }
 
 
@@ -122,12 +124,16 @@ public class SpawnManager : MonoBehaviour {
             {
                 if (message != "")
                     message += "\n";
-                message += "- A surge of police activity has been detected!";
+                message = "A surge of police activity has been detected!";
+
+                gm.enqueMessage(message, new Color(0.5f, 0.5f, 1f));
+
                 surge = 2;
                 skippolice = true;
             }
 
             int num = GameObject.FindGameObjectsWithTag("Swat").Length;
+
 
             for (int i = 0; i < ((int)(gm.nefarious / 18 / 4) + 1) * surge; i++)
             {
@@ -151,7 +157,8 @@ public class SpawnManager : MonoBehaviour {
             {
                 if (message != "")
                     message += "\n";
-                message += "- A swat cruiser has been launched to intercept you!";
+                message = "A swat cruiser has been launched to intercept you!";
+                gm.enqueMessage(message, new Color(0.5f, 0.5f, 1f));
                 GameObject policeship = (GameObject)GameObject.Instantiate(Resources.Load("ships/SpaceSwat"), GetValidSpawnpoint(), Quaternion.identity);
             }
         }

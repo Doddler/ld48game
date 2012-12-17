@@ -10,10 +10,20 @@ public class GameManager : MonoBehaviour {
     public int playerHealth;
     public int playerShields;
     private List<string> messageQueue;
+    private List<Color> messageColors;
     private float timeSinceMessage = 10f;
     static GameManager gm;
 
+    public bool firstpolice;
+    public bool firstswat;
+
     private int linecount;
+
+    public bool firstcivi;
+    private int tutorial = 0;
+
+
+    float timesincewoop = 0f;
 
     public static GameManager getGameManager()
     {
@@ -29,8 +39,9 @@ public class GameManager : MonoBehaviour {
         nefarious = 0;
         score = 0;
         messageQueue = new List<string>();
+        messageColors = new List<Color>();
 
-
+        enqueMessage("Now entering imperial space...", Color.yellow);
 	}
 	
 	// Update is called once per frame
@@ -38,6 +49,28 @@ public class GameManager : MonoBehaviour {
         timeSinceStart += Time.deltaTime;
 
         //nefarious = (int)(timeSinceStart * 10);
+
+        if (timeSinceStart > 2f && tutorial == 0)
+        {
+            enqueMessage("Use the arrowkeys to pilot your ship, use the CTRL key to fire lasers.", Color.yellow);
+            tutorial = 1;
+        }
+
+        if (timeSinceStart > 12f && tutorial == 1)
+        {
+            enqueMessage("Destroying civilian vessels increases notoriety and recovers shield levels.", Color.yellow);
+            tutorial = 2;
+        }
+
+        if (firstpolice)
+        {
+            timesincewoop += Time.deltaTime;
+            if (timesincewoop > 5f && tutorial == 2)
+            {
+                enqueMessage("Larger Police vessels can be destroyed to boost shield levels as well, though not as much.", Color.yellow);
+                tutorial = 3;
+            }
+        }
 
         message = "";
         for (int i = 0; i < messageQueue.Count; i++)
@@ -110,13 +143,21 @@ public class GameManager : MonoBehaviour {
 
       
         // GUI.DrawTexture(new Rect(Screen.width / 2 - 256, Screen.height - 100, 512,), scanlines, ScaleMode.StretchToFill, true);
-        GUIStyle TextStyle = new GUIStyle();
-        TextStyle.font = MyFont;
-        TextStyle.normal.textColor = Color.green;
-        TextStyle.wordWrap = true;
+        for (int i = 0; i < messageQueue.Count; i++)
+        {
+            GUIStyle TextStyle = new GUIStyle();
+            TextStyle.font = MyFont;
+            TextStyle.wordWrap = true;
+            TextStyle.normal.textColor = Color.black;
 
-        GUI.Label(new Rect(Screen.width / 2 - 256 + 20, Screen.height - 80, 470, 70), message.ToUpper(), TextStyle);
+            GUI.Label(new Rect(Screen.width / 2 - 256 + 20 + 2, Screen.height - 80 + i * 15 + 2, 470 + 2, 70 + 2), messageQueue[i].ToUpper(), TextStyle);
 
+            TextStyle.normal.textColor = messageColors[i];
+
+            GUI.Label(new Rect(Screen.width / 2 - 256 + 20, Screen.height - 80 + i * 15, 470, 70), messageQueue[i].ToUpper(), TextStyle);
+
+
+        }
         //chatbox
         GUI.DrawTexture(new Rect(Screen.width / 2 - 256, Screen.height - 100, 512, 114), chatbox, ScaleMode.ScaleAndCrop, true);
 
@@ -167,8 +208,10 @@ public class GameManager : MonoBehaviour {
         playerHealth = health;
     }
 
-    public void enqueMessage(string message)
+    public void enqueMessage(string message, Color c)
     {
+        message = "> " + message;
+
         if (message.Length > 45)
         {
             string[] original = message.Split(null);
@@ -183,8 +226,9 @@ public class GameManager : MonoBehaviour {
                 {
                     Debug.Log("Queing: " + final);
                     messageQueue.Add(final);
-                    final = "";
-                    len = 0;
+                    messageColors.Add(c);
+                    final = "  " + i;
+                    len = i.Length + 2;
                     continue;
                 }
                 if (final != "")
@@ -198,13 +242,20 @@ public class GameManager : MonoBehaviour {
 
             Debug.Log("Queing: " + final);
             messageQueue.Add(final);
-        
+            messageColors.Add(c);
+
         }
         else
+        {
             messageQueue.Add(message);
+            messageColors.Add(c);
+        }
 
         while (messageQueue.Count > 5)
+        {
             messageQueue.RemoveAt(0);
+            messageColors.RemoveAt(0);
+        }
     }
 
 }

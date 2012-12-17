@@ -5,7 +5,7 @@ public class PlayerLaser : MonoBehaviour {
 
     public float angle;
     public float velocity = 30;
-    float life = 6;
+    float life = 2;
 
 	// Use this for initialization
 	void Start () {

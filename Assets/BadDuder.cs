@@ -128,6 +128,17 @@ public class BadDuder : MonoBehaviour {
             }
         }
 
+        if (!gm.firstpolice)
+        {
+            float distancebetween = (player.transform.position - transform.position).magnitude;
+
+            if (distancebetween < 30f)
+            {
+                gm.firstpolice = true;
+                gm.enqueMessage("Officer: \"Woop woop! It's the Space Police!\"", new Color(0.5f, 0.5f, 1f));
+            }
+        }
+
         if((player.transform.position - transform.position).magnitude > 120f)
             GameObject.Destroy(this.gameObject);
 
