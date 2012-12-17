@@ -54,6 +54,7 @@
      <Compile Include="Assets\SpaceTaxi.cs" />
      <Compile Include="Assets\SpawnManager.cs" />
      <Compile Include="Assets\TaxiGroup.cs" />
+     <Compile Include="Assets\mainscreen.cs" />
      <Compile Include="Assets\tanker_behaviour.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
