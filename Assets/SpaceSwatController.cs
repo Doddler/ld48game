@@ -196,8 +196,8 @@ public class SpaceSwatController : MonoBehaviour
         shotdelay -= Time.deltaTime;
         if (shotdelay <= 0 && distancebetween < 40f)
         {
-            int shottype = Random.Range(1, 5);
-            if (shottype < 5)
+            int shottype = Random.Range(1, 10);
+            if (shottype < 7)
                 StartCoroutine("Shotgun");
             else
                 StartCoroutine("ShootGuns");

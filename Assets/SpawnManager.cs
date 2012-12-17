@@ -62,7 +62,7 @@ public class SpawnManager : MonoBehaviour {
 
         if (1==1)
         {
-            int r = Random.Range(0, 3);
+            int r = Random.Range(0, 4);
             if (r < 2)
             {
                 GameObject transport = (GameObject)GameObject.Instantiate(Resources.Load("ships/cargo_ship"), GetValidSpawnpoint(), Quaternion.identity);
@@ -102,6 +102,10 @@ public class SpawnManager : MonoBehaviour {
                 GameObject taxi = (GameObject)GameObject.Instantiate(Resources.Load("ships/TaxiGroup4"), GetValidSpawnpoint(), Quaternion.identity);
                 message = "A group of civilian ships has been detected!";
             }
+            if (r == 4)
+            {
+                Debug.Log("SOMETHING WENT TERRIBLY TERRIBLY WRONG");
+            }
             Debug.Log("message");
             gm.enqueMessage(message, Color.green);
         }
@@ -128,7 +132,7 @@ public class SpawnManager : MonoBehaviour {
 
                 gm.enqueMessage(message, new Color(0.5f, 0.5f, 1f));
 
-                surge = 2;
+                surge = 3;
                 skippolice = true;
             }
 
@@ -137,7 +141,7 @@ public class SpawnManager : MonoBehaviour {
 
             for (int i = 0; i < ((int)(gm.nefarious / 18 / 4) + 1) * surge; i++)
             {
-                if (num < (int)(gm.nefarious / 18/ 2))
+                if (num < (int)(gm.nefarious / 18/ 2) + 2)
                 {
                     GameObject policeship = (GameObject)GameObject.Instantiate(Resources.Load("ships/PoliceShip"), GetValidSpawnpoint(), Quaternion.identity);
                     num++;

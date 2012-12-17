@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ArrowManager.cs" />
     <Compile Include="Assets\BadDuder.cs" />
     <Compile Include="Assets\EnemyLaser.cs" />
     <Compile Include="Assets\GameManager.cs" />
