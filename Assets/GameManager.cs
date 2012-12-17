@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
     private List<Color> messageColors;
     private float timeSinceMessage = 10f;
     static GameManager gm;
+    GameObject player;
+    PlayerController pc;
 
     public bool firstpolice;
     public bool firstswat;
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour {
         score = 0;
         messageQueue = new List<string>();
         messageColors = new List<Color>();
+        player = PlayerController.getPlayer();
+        pc = player.GetComponent<PlayerController>();
 
         enqueMessage("Now entering imperial space...", Color.yellow);
 	}
@@ -110,9 +114,7 @@ public class GameManager : MonoBehaviour {
     private Vector2 pivotPoint;
     void OnGUI()
     {
-
-       
-
+ 
 
         GUI.DrawTexture(new Rect(10, 10, 312, 64), nef_bar_out, ScaleMode.StretchToFill, true);
         int numinserts = (int)Mathf.Floor(nefarious / 18);
@@ -160,6 +162,21 @@ public class GameManager : MonoBehaviour {
         }
         //chatbox
         GUI.DrawTexture(new Rect(Screen.width / 2 - 256, Screen.height - 100, 512, 114), chatbox, ScaleMode.ScaleAndCrop, true);
+
+
+        if (pc.isdead)
+        {
+            GUIStyle TextStyle = new GUIStyle();
+            TextStyle.font = MyFont;
+            TextStyle.wordWrap = true;
+            TextStyle.normal.textColor = Color.white;
+
+            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2, 80, 40), "Restart?" , TextStyle))
+            {
+                Application.LoadLevel(1);
+            }
+
+        }
 
         pivotPoint = new Vector2(500, 26);
         GUIUtility.RotateAroundPivot(rotAngle, pivotPoint);
