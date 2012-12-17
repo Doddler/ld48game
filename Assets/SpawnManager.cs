@@ -106,7 +106,7 @@ public class SpawnManager : MonoBehaviour {
             {
                 Debug.Log("SOMETHING WENT TERRIBLY TERRIBLY WRONG");
             }
-            Debug.Log("message");
+            //Debug.Log("message");
             gm.enqueMessage(message, Color.green);
         }
 

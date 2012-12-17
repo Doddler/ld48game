@@ -130,6 +130,9 @@ public class SpaceSwatController : MonoBehaviour
                     p.shields = 30;
                 GameManager.getGameManager().changeShields(p.shields);
 
+                GameObject.Instantiate(Resources.Load("other/Splode"));
+                GameObject.Instantiate(Resources.Load("other/Splode"));
+
                 GameObject.Destroy(gameObject);
             }
 

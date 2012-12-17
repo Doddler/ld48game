@@ -54,7 +54,7 @@ public class tanker_behaviour : MonoBehaviour {
             {
                 ParticleSystem p = thrust.GetComponent<ParticleSystem>();
                 p.Play();
-                turnCount = -10;
+                //turnCount = -10;
             }
 
             spotted = true;
@@ -91,12 +91,13 @@ public class tanker_behaviour : MonoBehaviour {
         else
         {
             //Debug.Log(turnCount);
-            turnCount -= Time.deltaTime;
+            turnCount -= Time.deltaTime * 2;
             if (turnCount < 0)
             {
-                turnCount = Random.RandomRange(5f, 20f);
+                turnCount = Random.RandomRange(3f, 10f);
                 target = player.transform.position - transform.position;
                 forward = transform.up;
+
             }
 
             angle = Vector3.Angle(target, forward);

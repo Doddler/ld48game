@@ -117,6 +117,7 @@ public class BadDuder : MonoBehaviour {
             if (dyingtime <= 0)
             {
                 OnShotDead();
+                GameObject.Instantiate(Resources.Load("other/Splode"));
                 GameObject.Destroy(gameObject);
             }
             explosion.transform.position = this.transform.position;

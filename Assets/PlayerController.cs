@@ -80,9 +80,12 @@ public class PlayerController : MonoBehaviour {
                 renderer.enabled = false;
                 velocity = Vector3.zero;
                 isdead = true;
+                GameObject.Instantiate(Resources.Load("other/Splode"));
+                GameObject.Instantiate(Resources.Load("other/Splode"));
                 for (int i = 0; i < transform.childCount; i++)
                 {
                     int score = gm.nefarious * 16;
+                    score += (int)(gm.nefarious / 3) * (int)(gm.nefarious / 3);
                     gm.enqueMessage("Final Score: " + score, Color.white);
                     GameObject.Destroy(transform.GetChild(i).gameObject);
                 }

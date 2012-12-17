@@ -44,7 +44,7 @@ public class ArrowManager : MonoBehaviour
 
         arrow.transform.rotation = quat;
 
-        arrow.transform.position = (quat * Vector3.up).normalized * 15 + player.transform.position;
+        arrow.transform.position = (quat * Vector3.up).normalized * 10 + player.transform.position;
 
         float scale = (100 - (distancebetween-50)) / 100;
 
