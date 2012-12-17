@@ -224,7 +224,7 @@ public class GameManager : MonoBehaviour {
                 len += i.Length;
                 if (len > 45)
                 {
-                    Debug.Log("Queing: " + final);
+                    //Debug.Log("Queing: " + final);
                     messageQueue.Add(final);
                     messageColors.Add(c);
                     final = "  " + i;
@@ -240,7 +240,7 @@ public class GameManager : MonoBehaviour {
                 final += i;
             }
 
-            Debug.Log("Queing: " + final);
+            //Debug.Log("Queing: " + final);
             messageQueue.Add(final);
             messageColors.Add(c);
 

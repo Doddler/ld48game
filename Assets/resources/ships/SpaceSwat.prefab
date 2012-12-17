@@ -81,6 +81,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400002}
   m_Layer: 9
   m_Name: SpaceSwat
   m_TagString: Swat
@@ -209,6 +210,17 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c977172ec08d38e4ca9dccdd8683ce4b, type: 3}
   m_Name: 
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966fc02a28de48841bea7866b7f39aea, type: 3}
+  m_Name: 
+  arrow: {fileID: 100000, guid: 1b9ae574d5bf5d34da675c92c6a40b45, type: 2}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
